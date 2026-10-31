@@ -1,10 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Inter (400/500/600/700) from Google Fonts: https://fonts.google.com/specimen/Inter -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta
+      name="description"
+      content="HaoLe — backend developer in training. Explore my background, skills, projects, and contact details."
+    />
     <title>Home | HaoLe</title>
+    <!-- Inter (400/500/600/700) from Google Fonts: https://fonts.google.com/specimen/Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -29,48 +34,57 @@
 
     <main>
       <section>
-        <div>
-          <h1>Le Ngoc Hao</h1>
-          <p>Backend Developer (in training)</p>
-          <p>
+        <div class="intro-copy hero-copy">
+          <h1 class="page-title">Le Ngoc Hao</h1>
+          <p class="hero-subtitle">Backend Developer (in training)</p>
+          <p class="body-copy">
             I focus on building reliable systems, optimizing performance, and
             developing products that deliver real value.
           </p>
-          <div>
-            <a href="projects.html">View Projects</a>
-            <a href="contact.html">Contact Me</a>
+          <div class="hero-actions">
+            <a class="button button-primary" href="projects.html"
+              >View projects</a
+            >
+            <a class="button" href="contact.html">Contact</a>
           </div>
         </div>
 
-        <div>
+        <div class="avatar">
           <img
             class="portrait"
             src="anh.jpg"
-            width="300"
+            width="4672"
+            height="7008"
             alt="Portrait of Le Ngoc Hao in a dark suit outdoors"
           />
         </div>
       </section>
 
-      <section>
-        <h2>Highlights</h2>
-        <div>
-          <article>
-            <h3>Skills</h3>
-            <p>Explore the skills and technologies I'm learning.</p>
-            <a href="skills.html">Explore</a>
+      <section class="container page-content">
+        <h2 class="section-title">Highlights</h2>
+        <div class="card-grid">
+          <article class="card">
+            <h3 class="card-title">Skills</h3>
+            <p class="card-copy">
+              Explore the skills and technologies I'm learning.
+            </p>
+            <a class="text-link" href="skills.html">Explore</a>
           </article>
 
-          <article>
-            <h3>Projects</h3>
-            <p>Explore the projects and experiments I've worked on.</p>
-            <a href="projects.html">Explore</a>
+          <article class="card">
+            <h3 class="card-title">Projects</h3>
+            <p class="card-copy">
+              Explore the projects and experiments I've worked on.
+            </p>
+            <a class="text-link" href="projects.html">Explore</a>
           </article>
 
-          <article>
-            <h3>About</h3>
-            <p>Learn more about my learning journey and growth.</p>
-            <a href="about.html">Explore</a>
+          <article class="card">
+            <h3 class="card-title">About</h3>
+            <p class="card-copy">
+              Learn more about my learning journey and growth.
+            </p>
+            <a class="text-link" href="about.html">Explore</a>
           </article>
         </div>
       </section>

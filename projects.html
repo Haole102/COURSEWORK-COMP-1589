@@ -1,10 +1,15 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta
+      name="description"
+      content="HaoLe — backend developer in training. Explore my background, skills, projects, and contact details."
+    />
+    <title>Projects | HaoLe</title>
     <!-- Inter (400/500/600/700) from Google Fonts: https://fonts.google.com/specimen/Inter -->
-    <title>Home | HaoLe</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -13,6 +18,7 @@
     />
     <link rel="stylesheet" href="css/style.css" />
   </head>
+
   <body>
     <header>
       <div>
@@ -28,109 +34,104 @@
     </header>
 
     <main>
-      <h1>Projects</h1>
-      <div>
-        <button>All</button>
-        <button>Frontend</button>
-        <button>Backend</button>
-        <button>Fullstack</button>
+      <div class="container page-content">
+        <h1 class="page-title">Projects</h1>
+        <div class="project-filters">
+          <button class="button project-filter-button" type="button">
+            All
+          </button>
+          <button class="button project-filter-button" type="button">
+            Frontend
+          </button>
+          <button class="button project-filter-button" type="button">
+            Backend
+          </button>
+          <button class="button project-filter-button" type="button">
+            Fullstack
+          </button>
+        </div>
+        <!-- Replace these sample details and GitHub profile links with real projects later. -->
+        <section class="card-grid project-grid" id="project-list">
+          <article class="card">
+            <h2 class="card-title">Sample Backend API</h2>
+            <p class="card-copy">
+              Sample REST API concept with database integration and structured
+              endpoints.
+            </p>
+            <ul class="technology-tags">
+              <li class="technology-tag">#Node</li>
+              <li class="technology-tag">#SQL</li>
+            </ul>
+            <a
+              class="button button-repository"
+              href="https://github.com/Haole102"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Sample Backend API on GitHub"
+              >GitHub</a
+            >
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">Sample Frontend App</h2>
+            <p class="card-copy">
+              Sample responsive interface concept with reusable components and
+              client-side routing.
+            </p>
+            <ul class="technology-tags">
+              <li class="technology-tag">#React</li>
+            </ul>
+            <a
+              class="button button-repository"
+              href="https://github.com/Haole102"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Sample Frontend App on GitHub"
+              >GitHub</a
+            >
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">Sample Fullstack Site</h2>
+            <p class="card-copy">
+              Sample fullstack site concept combining server-rendered pages and
+              dynamic updates.
+            </p>
+            <ul class="technology-tags">
+              <li class="technology-tag">#Next.js</li>
+            </ul>
+            <a
+              class="button button-repository"
+              href="https://github.com/Haole102"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Sample Fullstack Site on GitHub"
+              >GitHub</a
+            >
+          </article>
+
+          <article class="card">
+            <h2 class="card-title">Sample Fullstack App</h2>
+            <p class="card-copy">
+              Sample fullstack app concept with authentication and real-time
+              data updates.
+            </p>
+            <ul class="technology-tags">
+              <li class="technology-tag">#Node</li>
+              <li class="technology-tag">#React</li>
+              <li class="technology-tag">#SQL</li>
+            </ul>
+            <a
+              class="button button-repository"
+              href="https://github.com/Haole102"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Sample Fullstack App on GitHub"
+              >GitHub</a
+            >
+          </article>
+        </section>
       </div>
-      <section>
-        <article>
-          <h2>Sample Backend API</h2>
-          <p>A simple backend API built with Express and MySQL.</p>
-          <ul>
-            <li>#Express</li>
-            <li>#MySQL</li>
-          </ul>
-          <a
-            href="https://github.com/Haole102"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </article>
-
-        <article>
-          <h2>Sample 2 Backend API</h2>
-          <p>A simple backend API built with Express and MongoDB.</p>
-          <ul>
-            <li>#Express</li>
-            <li>#MongoDB</li>
-          </ul>
-          <a
-            href="https://github.com/Haole102"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </article>
-
-        <article>
-          <h2>Sample Frontend App</h2>
-          <p>A simple frontend application built with React.</p>
-          <ul>
-            <li>#React</li>
-          </ul>
-          <a
-            href="https://github.com/Haole102"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </article>
-
-        <article>
-          <h2>Sample 2 Frontend App</h2>
-          <p>A simple frontend application built with React.</p>
-          <ul>
-            <li>#React</li>
-          </ul>
-          <a
-            href="https://github.com/Haole102"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </article>
-
-        <article>
-          <h2>Sample Fullstack App</h2>
-          <p>
-            A simple fullstack application built with Express, React and MySQL.
-          </p>
-          <ul>
-            <li>#Express</li>
-            <li>#React</li>
-            <li>#MySQL</li>
-          </ul>
-          <a
-            href="https://github.com/Haole102"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </article>
-
-        <article>
-          <h2>Sample 2 Fullstack App</h2>
-          <p>
-            A simple fullstack application built with Express, React and
-            MongoDB.
-          </p>
-          <ul>
-            <li>#Express</li>
-            <li>#React</li>
-            <li>#MongoDB</li>
-          </ul>
-          <a
-            href="https://github.com/Haole102"
-            target="_blank"
-            rel="noopener noreferrer"
-            >GitHub</a
-          >
-        </article>
-      </section>
     </main>
 
     <footer>

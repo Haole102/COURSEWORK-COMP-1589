@@ -1,8 +1,13 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta
+      name="description"
+      content="HaoLe — backend developer in training. Explore my background, skills, projects, and contact details."
+    />
     <title>About | HaoLe</title>
     <!-- Inter (400/500/600/700) from Google Fonts: https://fonts.google.com/specimen/Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -28,46 +33,52 @@
     </header>
 
     <main>
-      <section>
-        <div>
-          <img
-            class="portrait"
-            src="anh.jpg"
-            width="300"
-            alt="Portrait of Le Ngoc Hao in a dark suit outdoors"
-          />
-        </div>
+      <div class="container page-content">
+        <section class="intro about-intro">
+          <div class="avatar">
+            <img
+              class="portrait"
+              src="anh.jpg"
+              width="4672"
+              height="7008"
+              alt="Portrait of Le Ngoc Hao in a dark suit outdoors"
+            />
+          </div>
 
-        <div>
-          <h1>About Me</h1>
-          <p>
-            I'm Hao, a backend developer in training focused on building
-            reliable systems, optimizing performance, and delivering products
-            that create real value. I enjoy learning new technologies, solving
-            complex problems, and improving the systems I work on.
-          </p>
-          <p>
-            My current focus is on backend development and database systems. I'm
-            building practical experience through projects, experiments, and
-            continuous learning, with the goal of becoming a strong technical
-            contributor on engineering teams.
-          </p>
-        </div>
-      </section>
-      <section>
-        <h2>Education</h2>
-        <ol>
-          <li>
-            <p>2025: Greenwich University</p>
-          </li>
-          <li>
-            <p>2025: Aptech</p>
-          </li>
-          <li>
-            <p>Goal: Backend / Database</p>
-          </li>
-        </ol>
-      </section>
+          <div class="intro-copy">
+            <h1 class="page-title">About me</h1>
+            <p class="body-copy">
+              I’m Hao, a backend developer in training focused on building
+              reliable systems, optimizing performance, and delivering products
+              that create real value. I enjoy learning new technologies, solving
+              complex problems, and improving the systems I work on.
+            </p>
+            <p class="body-copy">
+              My current focus is on backend development and database systems.
+              I’m building practical experience through projects, experiments,
+              and continuous learning, with the goal of becoming a strong
+              technical contributor on engineering teams.
+            </p>
+          </div>
+        </section>
+
+        <section class="education">
+          <h2 class="section-title">Education</h2>
+          <ol class="timeline">
+            <li class="timeline-item">
+              <p class="timeline-label">2025: Greenwich University</p>
+            </li>
+
+            <li class="timeline-item">
+              <p class="timeline-label">2025: Aptech</p>
+            </li>
+
+            <li class="timeline-item">
+              <p class="timeline-label">Goal: Backend / Database</p>
+            </li>
+          </ol>
+        </section>
+      </div>
     </main>
 
     <footer>
