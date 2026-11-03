@@ -17,18 +17,38 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap"
     />
     <link rel="stylesheet" href="css/style.css" />
+    <script src="js/navigation.js" defer></script>
+    <script src="js/projects.js" defer></script>
   </head>
 
   <body>
-    <header>
-      <div>
-        <a href="index.html">HaoLe</a>
-        <nav>
-          <a href="index.html">Home</a>
-          <a href="about.html">About</a>
-          <a href="skills.html">Skills</a>
-          <a href="projects.html">Projects</a>
-          <a href="contact.html">Contact</a>
+    <!-- Shared navigation opens with a hamburger button on mobile. -->
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="index.html">HaoLe</a>
+        <button
+          class="button menu-toggle"
+          type="button"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="primary-navigation"
+        >
+          <span class="menu-icon" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </span>
+        </button>
+        <nav
+          class="nav-list"
+          id="primary-navigation"
+          aria-label="Primary navigation"
+        >
+          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="about.html">About</a>
+          <a class="nav-link" href="skills.html">Skills</a>
+          <a class="nav-link active" href="projects.html" aria-current="page"
+            >Projects</a
+          >
+          <a class="nav-link" href="contact.html">Contact</a>
         </nav>
       </div>
     </header>
@@ -36,23 +56,54 @@
     <main>
       <div class="container page-content">
         <h1 class="page-title">Projects</h1>
-        <div class="project-filters">
-          <button class="button project-filter-button" type="button">
+        <div
+          class="project-filters"
+          role="group"
+          aria-label="Filter projects by category"
+        >
+          <button
+            class="button project-filter-button"
+            type="button"
+            data-project-filter="all"
+            aria-pressed="true"
+            aria-controls="project-list"
+          >
             All
           </button>
-          <button class="button project-filter-button" type="button">
+          <button
+            class="button project-filter-button"
+            type="button"
+            data-project-filter="frontend"
+            aria-pressed="false"
+            aria-controls="project-list"
+          >
             Frontend
           </button>
-          <button class="button project-filter-button" type="button">
+          <button
+            class="button project-filter-button"
+            type="button"
+            data-project-filter="backend"
+            aria-pressed="false"
+            aria-controls="project-list"
+          >
             Backend
           </button>
-          <button class="button project-filter-button" type="button">
+          <button
+            class="button project-filter-button"
+            type="button"
+            data-project-filter="fullstack"
+            aria-pressed="false"
+            aria-controls="project-list"
+          >
             Fullstack
           </button>
         </div>
-        <!-- Replace these sample details and GitHub profile links with real projects later. -->
+
         <section class="card-grid project-grid" id="project-list">
-          <article class="card">
+          <article class="card" data-project-category="backend">
+            <div class="project-media">
+              <img src="assets/icons/image.svg" width="48" height="48" alt="" />
+            </div>
             <h2 class="card-title">Sample Backend API</h2>
             <p class="card-copy">
               Sample REST API concept with database integration and structured
@@ -71,8 +122,10 @@
               >GitHub</a
             >
           </article>
-
-          <article class="card">
+          <article class="card" data-project-category="frontend">
+            <div class="project-media">
+              <img src="assets/icons/image.svg" width="48" height="48" alt="" />
+            </div>
             <h2 class="card-title">Sample Frontend App</h2>
             <p class="card-copy">
               Sample responsive interface concept with reusable components and
@@ -90,8 +143,10 @@
               >GitHub</a
             >
           </article>
-
-          <article class="card">
+          <article class="card" data-project-category="fullstack">
+            <div class="project-media">
+              <img src="assets/icons/image.svg" width="48" height="48" alt="" />
+            </div>
             <h2 class="card-title">Sample Fullstack Site</h2>
             <p class="card-copy">
               Sample fullstack site concept combining server-rendered pages and
@@ -109,8 +164,10 @@
               >GitHub</a
             >
           </article>
-
-          <article class="card">
+          <article class="card" data-project-category="fullstack">
+            <div class="project-media">
+              <img src="assets/icons/image.svg" width="48" height="48" alt="" />
+            </div>
             <h2 class="card-title">Sample Fullstack App</h2>
             <p class="card-copy">
               Sample fullstack app concept with authentication and real-time
@@ -134,21 +191,21 @@
       </div>
     </main>
 
-    <footer>
-      <div>
+    <footer class="site-footer">
+      <div class="container footer-inner">
         <p>© 2026 Hao Le</p>
-        <nav>
+        <nav class="social-links">
           <a
             href="https://github.com/Haole102"
             target="_blank"
             rel="noopener noreferrer"
-            >Github</a
+            >GitHub</a
           >
           <a
             href="https://www.linkedin.com/in/h%C3%A0o-l%C3%AA-787840432/"
             target="_blank"
             rel="noopener noreferrer"
-            >Linkedin</a
+            >LinkedIn</a
           >
         </nav>
       </div>
