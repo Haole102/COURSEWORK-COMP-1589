@@ -26,7 +26,10 @@
   --radius-24: 24px;
   --font-body: Inter, sans-serif;
   --font-size-base: 18px;
+  /* Inset box-shadow acts as a 1px border without changing the box size */
   --inside-border: inset 0 0 0 1px var(--border-subtle);
+  /* Side padding: 120px at 1440px, shrinks with the viewport (clamp: min, flexible, max) */
+  --gutter: clamp(48px, 8.3334vw, 120px);
 }
 
 * {
@@ -35,10 +38,11 @@
   padding: 0;
 }
 
+/* ===== Base / reset ===== */
 html {
   font-size: var(--font-size-base);
+  /* Reserve scrollbar space so the layout does not shift between pages */
   scrollbar-gutter: stable;
-  /* keep space for scrollbar */
 }
 
 body {
@@ -51,6 +55,7 @@ body {
   font-family: var(--font-body);
   line-height: 29px;
   font-synthesis: none;
+  /* Break long words/URLs instead of overflowing on small screens */
   overflow-wrap: anywhere;
 }
 
@@ -82,18 +87,19 @@ img {
   height: auto;
 }
 
+/* Visible focus ring for keyboard users only (:focus-visible) */
 a:focus-visible,
 button:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
-/* Shared layout */
+/* ===== Layout ===== */
 .container {
-  width: 1132px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 1440px;
   margin-inline: auto;
-  padding: 0 var(--space-16);
+  padding-inline: var(--gutter);
 }
 
 .page-content,
@@ -153,7 +159,7 @@ button:focus-visible {
   list-style: none;
 }
 
-/* Shared typography. */
+/* ===== Typography ===== */
 .page-title {
   font-size: 40px;
   font-weight: 700;
@@ -212,6 +218,7 @@ button:focus-visible {
   line-height: 20px;
 }
 
+/* ===== Buttons ===== */
 .button {
   justify-content: center;
   flex-shrink: 0;
@@ -221,7 +228,10 @@ button:focus-visible {
   border-radius: var(--radius-8);
   background: var(--card);
   text-align: center;
-  transition: background 0.2s ease color 0.2s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .menu-toggle,
@@ -252,8 +262,11 @@ a.button:hover {
   text-underline-offset: var(--space-4);
 }
 
-/* Header, footer and mobile menu. */
+/* ===== Header, footer and navigation ===== */
 .site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
   background: var(--bg);
   box-shadow: inset 0 -1px var(--border-subtle);
 }
@@ -266,11 +279,10 @@ a.button:hover {
 .header-inner {
   gap: var(--space-16) var(--space-32);
   min-height: 72px;
-  padding: var(--space-16);
 }
 
 .brand {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 700;
   line-height: 32px;
 }
@@ -290,7 +302,7 @@ a.button:hover {
 
 .footer-inner {
   gap: var(--space-16);
-  padding: var(--space-24);
+  padding-block: var(--space-24);
 }
 
 .social-links {
@@ -316,6 +328,7 @@ a.button:hover {
   background: currentColor;
 }
 
+/* Hamburger icon turns into an X when the menu is open */
 .menu-toggle[aria-expanded="true"] .menu-icon span:nth-child(1) {
   transform: translateY(6px) rotate(45deg);
 }
@@ -328,34 +341,27 @@ a.button:hover {
   transform: translateY(-6px) rotate(-45deg);
 }
 
-/* Home and about share the same intro layout and copy. */
+/* ===== Intro (home hero and about) ===== */
 .intro {
   display: grid;
-  align-items: flex-start;
+  grid-template-columns: minmax(0, 560px) minmax(0, 360px);
+  justify-content: start;
+  align-items: center;
   gap: var(--space-64);
 }
 
-.hero {
-  align-items: center;
+.about-intro {
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+  align-items: start;
 }
 
 .intro-copy {
-  flex: 1 1 320px;
   gap: var(--space-24);
   min-width: 0;
 }
 
 .hero-copy {
-  flex-basis: 480px;
   align-items: flex-start;
-}
-
-.intro .avatar {
-  flex: 0 1 360px;
-}
-
-.about-intro .avatar {
-  flex-basis: 320px;
 }
 
 .avatar,
@@ -365,8 +371,9 @@ a.button:hover {
 }
 
 .avatar {
-  width: 360px;
-  max-width: 100%;
+  width: 100%;
+  max-width: 360px;
+  /* Keeps the avatar square at any width */
   aspect-ratio: 1;
   overflow: hidden;
   border-radius: var(--radius-24);
@@ -376,20 +383,21 @@ a.button:hover {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  /* Crop the portrait so the face stays visible */
   object-position: center 30%;
 }
 
-/* Card grids, card content and About timeline. */
-
+/* ===== Cards and grids ===== */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  /* minmax(0, 1fr) lets columns shrink below their content width */
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: start;
   gap: var(--space-24);
 }
 
 .contact-grid {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 384px));
 }
 
 .card {
@@ -407,6 +415,7 @@ a.button:hover {
   gap: var(--space-64);
 }
 
+/* ===== About timeline ===== */
 .timeline {
   gap: var(--space-24);
 }
@@ -422,6 +431,10 @@ a.button:hover {
   flex-shrink: 0;
 }
 
+.timeline-item:last-child {
+  min-height: 0;
+}
+
 .timeline-label {
   min-width: 0;
 }
@@ -430,7 +443,11 @@ a.button:hover {
   gap: var(--space-12);
 }
 
-/* Project filters, media and tags. */
+/* ===== Projects page ===== */
+.project-filter-button {
+  padding: var(--space-8) var(--space-16);
+}
+
 .project-filter-button:hover {
   box-shadow: inset 0 0 0 1px var(--accent);
 }
@@ -465,4 +482,142 @@ a.button:hover {
   line-height: 18px;
 }
 
-/* Responsive layout. */
+/* ===== Mobile layout: 768px and below (desktop is the default above) ===== */
+@media (max-width: 768px) {
+  :root {
+    --gutter: 24px;
+  }
+
+  .page-content,
+  .hero {
+    padding-block: var(--space-32);
+  }
+
+  .page-content {
+    gap: var(--space-24);
+  }
+
+  /* :has() selects the page that contains a highlight grid / filters, to match Figma spacing */
+  .page-content:has(.highlight-grid) {
+    gap: var(--space-16);
+  }
+
+  .page-content:has(.project-filters) {
+    gap: var(--space-32);
+  }
+
+  .header-inner {
+    gap: 0;
+    min-height: 0;
+    padding: var(--space-16);
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .nav-list {
+    display: none;
+    flex-basis: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding-top: var(--space-32);
+  }
+
+  .nav-list.is-open {
+    display: flex;
+  }
+
+  .nav-link {
+    padding: var(--space-12) 0;
+    border-radius: var(--radius-8);
+  }
+
+  .nav-link:hover,
+  .nav-link.active {
+    background: var(--card);
+    padding-inline: var(--space-16);
+  }
+
+  .footer-inner {
+    padding-inline: var(--space-24);
+  }
+
+  .card-grid,
+  .contact-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .intro,
+  .about-intro {
+    grid-template-columns: minmax(0, 1fr);
+    justify-content: stretch;
+    align-items: start;
+    gap: var(--space-24);
+  }
+
+  .avatar {
+    max-width: 220px;
+  }
+
+  /* order: -1 shows the portrait above the text */
+  .hero .avatar {
+    order: -1;
+  }
+
+  .hero-copy {
+    gap: var(--space-16);
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .hero-actions .button {
+    align-self: stretch;
+  }
+
+  .about-intro {
+    gap: var(--space-32);
+  }
+
+  /* display: contents removes the wrapper box so its children join the grid and can be reordered */
+  .about-intro .intro-copy {
+    display: contents;
+  }
+
+  /* order: -1 moves the title above the portrait */
+  .about-intro .page-title {
+    order: -1;
+  }
+
+  .highlight-grid {
+    gap: var(--space-16);
+  }
+
+  .highlight-grid .card {
+    gap: var(--space-12);
+    padding: var(--space-20);
+  }
+
+  .contact-grid {
+    gap: var(--space-16);
+  }
+
+  /* Filters wrap into two columns */
+  .project-filters {
+    display: grid;
+    grid-template-columns: repeat(2, max-content);
+  }
+
+  .about-content {
+    gap: var(--space-32);
+  }
+
+  .education {
+    gap: var(--space-24);
+  }
+}
