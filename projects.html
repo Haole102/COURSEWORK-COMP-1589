@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/navigation.js" defer></script>
     <script src="js/projects.js" defer></script>
+    <script src="js/project-search.js" defer></script>
   </head>
 
   <body>
@@ -54,48 +55,66 @@
     <main>
       <div class="container page-content">
         <h1 class="page-title">Projects</h1>
-        <div
-          class="project-filters"
-          role="group"
-          aria-label="Filter projects by category"
-        >
-          <button
-            class="button project-filter-button"
-            type="button"
-            data-project-filter="all"
-            aria-pressed="true"
-            aria-controls="project-list"
+        <div class="project-toolbar">
+          <div
+            class="project-filters"
+            role="group"
+            aria-label="Filter projects by category"
           >
-            All
-          </button>
-          <button
-            class="button project-filter-button"
-            type="button"
-            data-project-filter="frontend"
-            aria-pressed="false"
-            aria-controls="project-list"
-          >
-            Frontend
-          </button>
-          <button
-            class="button project-filter-button"
-            type="button"
-            data-project-filter="backend"
-            aria-pressed="false"
-            aria-controls="project-list"
-          >
-            Backend
-          </button>
-          <button
-            class="button project-filter-button"
-            type="button"
-            data-project-filter="fullstack"
-            aria-pressed="false"
-            aria-controls="project-list"
-          >
-            Fullstack
-          </button>
+            <button
+              class="button project-filter-button"
+              type="button"
+              data-project-filter="all"
+              aria-pressed="true"
+              aria-controls="project-list"
+            >
+              All
+            </button>
+            <button
+              class="button project-filter-button"
+              type="button"
+              data-project-filter="frontend"
+              aria-pressed="false"
+              aria-controls="project-list"
+            >
+              Frontend
+            </button>
+            <button
+              class="button project-filter-button"
+              type="button"
+              data-project-filter="backend"
+              aria-pressed="false"
+              aria-controls="project-list"
+            >
+              Backend
+            </button>
+            <button
+              class="button project-filter-button"
+              type="button"
+              data-project-filter="fullstack"
+              aria-pressed="false"
+              aria-controls="project-list"
+            >
+              Fullstack
+            </button>
+          </div>
+
+          <div class="project-search">
+            <label class="visually-hidden" for="project-search-input"
+              >Search projects</label
+            >
+            <input
+              id="project-search-input"
+              class="project-search-input"
+              type="search"
+              placeholder="Search projects..."
+              aria-controls="project-list"
+            />
+          </div>
         </div>
+        <p class="project-empty" id="project-empty" role="status" hidden>
+          No projects match your search.
+        </p>
 
         <section class="card-grid project-grid" id="project-list">
           <article class="card" data-project-category="backend">

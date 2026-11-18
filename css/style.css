@@ -6,6 +6,7 @@
   --muted: #94a3b8;
   --accent: #38bdf8;
   --accent-2: #34d399;
+  --error: #f87171;
   --on-accent: #0f172a;
   --border-subtle: #334155;
   --border-strong: #64748b;
@@ -245,7 +246,7 @@ button:focus-visible {
 
 .social-links a:hover,
 .text-link:hover,
-.contact-grid a:hover,
+.contact-links a:hover,
 a.button:hover {
   text-decoration: underline;
   text-underline-offset: var(--space-4);
@@ -385,10 +386,6 @@ a.button:hover {
   gap: var(--space-24);
 }
 
-.contact-grid {
-  grid-template-columns: repeat(2, minmax(0, 384px));
-}
-
 .card {
   gap: var(--space-16);
   padding: var(--space-24);
@@ -441,8 +438,59 @@ a.button:hover {
   box-shadow: inset 0 0 0 1px var(--accent);
 }
 
-.project-grid .card[hidden] {
+/* [hidden] = hidden by the category filter, [data-search-hidden] = hidden by search */
+.project-grid .card[hidden],
+.project-grid .card[data-search-hidden] {
   display: none;
+}
+
+.project-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-16);
+}
+
+.project-search {
+  flex: 0 1 320px;
+  min-width: 0;
+}
+
+.project-search-input {
+  width: 100%;
+  padding: var(--space-8) var(--space-16);
+  border: 0;
+  border-radius: var(--radius-8);
+  background: var(--card);
+  box-shadow: var(--inside-border);
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.project-search-input::placeholder {
+  color: var(--muted);
+}
+
+.project-search-input:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.project-empty {
+  color: var(--muted);
+}
+
+/* Label stays available to screen readers but is not shown */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .project-media {
@@ -468,6 +516,62 @@ a.button:hover {
   font-size: 12px;
   font-weight: 600;
   line-height: 18px;
+}
+
+/* ===== Contact form ===== */
+.contact-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 640px) minmax(0, 384px);
+  align-items: start;
+  gap: var(--space-24);
+}
+
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-24);
+}
+
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+.form-field label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 20px;
+}
+
+.form-field input,
+.form-field textarea {
+  width: 100%;
+  padding: var(--space-12) var(--space-16);
+  border: 0;
+  border-radius: var(--radius-8);
+  background: var(--bg);
+  box-shadow: var(--inside-border);
+  color: var(--text);
+  font: inherit;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.form-field textarea {
+  resize: vertical;
+}
+
+.form-field input:focus-visible,
+.form-field textarea:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.form-error {
+  color: var(--error);
+  font-size: 14px;
+  line-height: 20px;
 }
 
 /* ===== Mobile layout: 768px and below (desktop is the default above) ===== */
@@ -529,8 +633,13 @@ a.button:hover {
   }
 
   .card-grid,
-  .contact-grid {
+  .contact-layout {
     grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-layout,
+  .contact-links {
+    gap: var(--space-16);
   }
 
   .intro,
@@ -587,8 +696,13 @@ a.button:hover {
     padding: var(--space-20);
   }
 
-  .contact-grid {
-    gap: var(--space-16);
+  .project-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .project-search {
+    flex-basis: auto;
   }
 
   /* Filters wrap into two columns */

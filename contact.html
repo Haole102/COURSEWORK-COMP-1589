@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0f172a" />
     <meta
       name="description"
-      content="Contact Le Ngoc Hao by email, GitHub or LinkedIn. Typical response time is 1-2 days."
+      content="Contact Le Ngoc Hao using the contact form. Typical response time is 1-2 days."
     />
     <title>Contact | HaoLe</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,6 +17,7 @@
     />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/navigation.js" defer></script>
+    <script src="js/contact.js" defer></script>
   </head>
 
   <body>
@@ -55,42 +56,90 @@
         <h1 class="page-title">Contact</h1>
         <p class="body-copy">
           Thanks for visiting! If you need help with a project or would like to
-          discuss an idea, reach out through the channels below.
+          discuss an idea, send me a message using the form below. I usually
+          reply within 1–2 days.
         </p>
-        <section class="card-grid contact-grid">
-          <article class="card">
-            <h2 class="card-title">Email</h2>
-            <p class="card-copy">
-              <a href="mailto:lengochao2k7@gmail.com">lengochao2k7@gmail.com</a>
-            </p>
-          </article>
-          <article class="card">
-            <h2 class="card-title">GitHub</h2>
-            <p class="card-copy">
-              <a
-                href="https://github.com/Haole102"
-                target="_blank"
-                rel="noopener noreferrer"
-                >github.com/Haole102</a
-              >
-            </p>
-          </article>
-          <article class="card">
-            <h2 class="card-title">LinkedIn</h2>
-            <p class="card-copy">
-              <a
-                href="https://www.linkedin.com/in/h%C3%A0o-l%C3%AA-787840432/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >linkedin.com/in/hào-lê-787840432/</a
-              >
-            </p>
-          </article>
-          <article class="card">
-            <h2 class="card-title">Response time</h2>
-            <p class="card-copy">Within 1–2 days</p>
-          </article>
-        </section>
+        <div class="contact-layout">
+          <form class="card contact-form" id="contact-form" novalidate>
+            <div class="form-field">
+              <label for="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="input your name"
+                autocomplete="name"
+                maxlength="50"
+                required
+                aria-describedby="name-error"
+              />
+              <p class="form-error" id="name-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                placeholder="input your email"
+                autocomplete="email"
+                maxlength="100"
+                required
+                aria-describedby="email-error"
+              />
+              <p class="form-error" id="email-error" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="message">Message</label>
+              <textarea
+                id="message"
+                name="message"
+                rows="6"
+                placeholder="input your message"
+                maxlength="1000"
+                required
+                aria-describedby="message-error"
+              ></textarea>
+              <p class="form-error" id="message-error" hidden></p>
+            </div>
+            <button class="button button-primary" type="submit">
+              Send message
+            </button>
+          </form>
+
+          <div class="contact-links">
+            <article class="card">
+              <h2 class="card-title">Email</h2>
+              <p class="card-copy">
+                <a href="mailto:lengochao2k7@gmail.com"
+                  >lengochao2k7@gmail.com</a
+                >
+              </p>
+            </article>
+            <article class="card">
+              <h2 class="card-title">GitHub</h2>
+              <p class="card-copy">
+                <a
+                  href="https://github.com/Haole102"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >github.com/Haole102</a
+                >
+              </p>
+            </article>
+            <article class="card">
+              <h2 class="card-title">LinkedIn</h2>
+              <p class="card-copy">
+                <a
+                  href="https://www.linkedin.com/in/h%C3%A0o-l%C3%AA-787840432/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >linkedin.com/in/hào-lê-787840432/</a
+                >
+              </p>
+            </article>
+          </div>
+        </div>
       </div>
     </main>
 

@@ -1,46 +1,35 @@
-const menuToggle = document.querySelector(".menu-toggle");
-const primaryNavigation = document.querySelector("#primary-navigation");
-// Must match the @media (max-width: 768px) breakpoint in style.css
-const mobileLayout = window.matchMedia("(max-width: 768px)");
+const toggle = document.querySelector(".menu-toggle");
+const nav = document.querySelector("#primary-navigation");
 
 // Keep aria-expanded and aria-label in sync so screen readers announce the state
-const setMenuOpen = (isOpen) => {
-  menuToggle.setAttribute("aria-expanded", String(isOpen));
-  menuToggle.setAttribute(
+function setMenu(open) {
+  toggle.setAttribute("aria-expanded", open);
+  toggle.setAttribute(
     "aria-label",
-    isOpen ? "Close navigation menu" : "Open navigation menu",
+    open ? "Close navigation menu" : "Open navigation menu",
   );
-  primaryNavigation.classList.toggle("is-open", isOpen);
-};
+  nav.classList.toggle("is-open", open);
+}
 
-menuToggle.addEventListener("click", () => {
-  setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
-});
+// Click the button: flip the state
+toggle.addEventListener("click", () =>
+  setMenu(!nav.classList.contains("is-open")),
+);
 
-primaryNavigation.addEventListener("click", (event) => {
-  if (event.target.closest("a")) {
-    setMenuOpen(false);
-  }
+// Click a link inside the menu: close it
+nav.addEventListener("click", (e) => {
+  if (e.target.closest("a")) setMenu(false);
 });
 
 // Escape closes the menu and returns focus to the toggle (keyboard access)
-document.addEventListener("keydown", (event) => {
-  if (
-    event.key === "Escape" &&
-    menuToggle.getAttribute("aria-expanded") === "true"
-  ) {
-    setMenuOpen(false);
-    menuToggle.focus();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && nav.classList.contains("is-open")) {
+    setMenu(false);
+    toggle.focus();
   }
 });
 
-// Reset the menu when the window crosses the breakpoint
-mobileLayout.addEventListener("change", () => {
-  if (
-    mobileLayout.matches &&
-    primaryNavigation.contains(document.activeElement)
-  ) {
-    menuToggle.focus();
-  }
-  setMenuOpen(false);
-});
+// Reset the menu when the window crosses the mobile breakpoint (matches style.css)
+window
+  .matchMedia("(max-width: 768px)")
+  .addEventListener("change", () => setMenu(false));

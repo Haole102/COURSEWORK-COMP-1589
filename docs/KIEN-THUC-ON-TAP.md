@@ -656,72 +656,63 @@ Cách làm: **desktop là mặc định; mobile ghi đè** (kiểu _desktop-firs
 ## F1. `navigation.js` (mọi trang)
 
 ```js
-const menuToggle = document.querySelector(".menu-toggle");
-const primaryNavigation = document.querySelector("#primary-navigation");
-const mobileLayout = window.matchMedia("(max-width: 768px)");
+const toggle = document.querySelector(".menu-toggle");
+const nav = document.querySelector("#primary-navigation");
 ```
 
 - `querySelector(selector)` trả về phần tử **đầu tiên** khớp (hoặc `null`). `.` = class, `#` = id.
-- `window.matchMedia("(max-width: 768px)")` = "hỏi" JS xem media query đúng/sai. Trả về `MediaQueryList`: `.matches` (true/false), sự kiện `change`. **Con số 768 phải khớp CSS.**
 
 ```js
-const setMenuOpen = (isOpen) => {
-  menuToggle.setAttribute("aria-expanded", String(isOpen));
-  menuToggle.setAttribute(
+function setMenu(open) {
+  toggle.setAttribute("aria-expanded", open);
+  toggle.setAttribute(
     "aria-label",
-    isOpen ? "Close navigation menu" : "Open navigation menu",
+    open ? "Close navigation menu" : "Open navigation menu",
   );
-  primaryNavigation.classList.toggle("is-open", isOpen);
-};
+  nav.classList.toggle("is-open", open);
+}
 ```
 
-- Một hàm duy nhất đặt **toàn bộ trạng thái** (aria-expanded, nhãn, class) → 3 nơi gọi luôn đồng bộ.
-- Arrow function `(x) => {…}`. `cond ? a : b` = toán tử 3 ngôi.
-- `setAttribute` luôn chuyển giá trị thành chuỗi, nên `String(isOpen)` ở đây chỉ để rõ ý (`"true"`/`"false"`).
-- `classList.toggle("is-open", isOpen)` — tham số thứ 2 = **ép** thêm (`true`) hoặc bỏ (`false`), không đảo ngược mù quáng.
+- Một hàm duy nhất đặt **toàn bộ trạng thái** (aria-expanded, nhãn, class) → các nơi gọi luôn đồng bộ. `open` là `true` (mở) hoặc `false` (đóng).
+- `cond ? a : b` = toán tử 3 ngôi (nếu `cond` đúng lấy `a`, sai lấy `b`).
+- `setAttribute` tự chuyển `true/false` thành chuỗi `"true"/"false"`.
+- `classList.toggle("is-open", open)` — tham số thứ 2 = **ép** thêm class (`true`) hoặc bỏ class (`false`), không đảo ngược mù quáng.
 
 ```js
-menuToggle.addEventListener("click", () => {
-  setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
+toggle.addEventListener("click", () =>
+  setMenu(!nav.classList.contains("is-open")),
+);
+```
+
+- Bấm nút: kiểm tra nav **đang có class `is-open` không**, rồi đảo ngược (`!` = phủ định). Đang mở → đóng; đang đóng → mở. Class `is-open` là nguồn trạng thái duy nhất.
+
+```js
+nav.addEventListener("click", (e) => {
+  if (e.target.closest("a")) setMenu(false);
 });
 ```
 
-- Đọc trạng thái **từ thuộc tính** (nguồn sự thật duy nhất) rồi đảo ngược. `getAttribute` trả chuỗi nên so sánh với `"true"`.
+- **Event delegation**: gắn **1 listener lên nav**, thay vì 5 listener cho 5 link. `e.target` = nơi thực sự bị click; `.closest("a")` đi ngược cây tìm thẻ `<a>` gần nhất (xử lý cả khi click vào phần tử con của link). Mục đích: bấm link → đóng menu.
 
 ```js
-primaryNavigation.addEventListener("click", (event) => {
-  if (event.target.closest("a")) setMenuOpen(false);
-});
-```
-
-- **Event delegation**: gắn **1 listener lên nav**, thay vì 5 listener cho 5 link. `event.target` = nơi thực sự bị click; `.closest("a")` đi ngược cây tìm thẻ `<a>` gần nhất (xử lý cả khi click vào phần tử con của link). Mục đích: bấm link → đóng menu.
-
-```js
-document.addEventListener("keydown", (event) => {
-  if (
-    event.key === "Escape" &&
-    menuToggle.getAttribute("aria-expanded") === "true"
-  ) {
-    setMenuOpen(false);
-    menuToggle.focus();
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape" && nav.classList.contains("is-open")) {
+    setMenu(false);
+    toggle.focus();
   }
 });
 ```
 
-- Esc đóng menu **và trả focus về nút** (người dùng bàn phím không bị "mất con trỏ").
+- Esc (khi menu đang mở) đóng menu **và trả focus về nút** (người dùng bàn phím không bị "mất con trỏ").
 
 ```js
-mobileLayout.addEventListener("change", () => {
-  if (
-    mobileLayout.matches &&
-    primaryNavigation.contains(document.activeElement)
-  )
-    menuToggle.focus();
-  setMenuOpen(false);
-});
+window
+  .matchMedia("(max-width: 768px)")
+  .addEventListener("change", () => setMenu(false));
 ```
 
-- Khi cửa sổ **vượt qua mốc 768**: đặt lại menu về trạng thái đóng. Nếu vừa chuyển sang mobile mà focus đang ở trong nav (sắp bị `display:none` nên focus bị mất) thì chuyển focus về nút. `contains()` kiểm tra có là con cháu không; `document.activeElement` = phần tử đang focus.
+- `window.matchMedia("(max-width: 768px)")` = "hỏi" JS xem media query đúng/sai. Sự kiện `change` bắn mỗi khi cửa sổ **vượt qua mốc 768**; lúc đó đặt menu về trạng thái đóng. **Con số 768 phải khớp CSS.**
+- Bản cũ còn đưa focus về nút nếu focus đang nằm trong nav lúc chuyển sang mobile; bản gọn đã bỏ phần này.
 
 ## F2. `projects.js` (chỉ projects.html)
 
@@ -733,27 +724,46 @@ const projectCards = document.querySelectorAll("[data-project-category]");
 - `querySelectorAll` trả `NodeList` (có `.forEach`). `[data-x]` = selector theo thuộc tính (có thuộc tính đó).
 
 ```js
-const filterProjects = (category) => {
+function filterProjects(category) {
+  // Ẩn/hiện từng thẻ dự án
   projectCards.forEach((card) => {
     const cardCategory = card.getAttribute("data-project-category");
-    if (category === "all" || cardCategory === category) card.hidden = false;
-    else card.hidden = true;
+
+    if (category === "all" || cardCategory === category) {
+      card.hidden = false; // hiện
+    } else {
+      card.hidden = true; // ẩn
+    }
   });
+
+  // Đánh dấu nút đang chọn
   filterButtons.forEach((button) => {
-    const isActive = button.getAttribute("data-project-filter") === category;
-    button.setAttribute("aria-pressed", String(isActive));
+    const buttonCategory = button.getAttribute("data-project-filter");
+
+    if (buttonCategory === category) {
+      button.setAttribute("aria-pressed", "true");
+    } else {
+      button.setAttribute("aria-pressed", "false");
+    }
   });
-};
-filterButtons.forEach((button) =>
-  button.addEventListener("click", () =>
-    filterProjects(button.getAttribute("data-project-filter")),
-  ),
-);
+}
+
+filterButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    const category = button.getAttribute("data-project-filter");
+    filterProjects(category);
+  });
+});
+
 filterProjects("all");
 ```
 
 - Luồng: click nút → đọc `data-project-filter` → `filterProjects(category)` → với mỗi thẻ đặt `hidden` (CSS `[hidden]` ẩn thẻ — [G3]) → cập nhật `aria-pressed` (CSS tô nút xanh).
-- `category === "all" || cardCategory === category`: `===` so sánh nghiêm ngặt; `||` hoặc.
+- `getAttribute("tên")` = đọc giá trị của một thuộc tính HTML. Ví dụ thẻ `<article data-project-category="backend">` thì `getAttribute("data-project-category")` trả về `"backend"`. `data-...` là thuộc tính tự đặt tên, trình duyệt không gán ý nghĩa gì sẵn.
+- `card.hidden = true/false` = bật/tắt thuộc tính `hidden` của thẻ (có `hidden` thì thẻ bị ẩn).
+- `setAttribute("tên", "giá trị")` = đặt giá trị cho một thuộc tính (ở đây là `aria-pressed`).
+- `category === "all" || cardCategory === category`: `===` so sánh nghiêm ngặt (cùng giá trị, cùng kiểu); `||` nghĩa là "hoặc". Cả câu: "đang chọn All, **hoặc** thẻ thuộc đúng loại đang chọn" thì hiện thẻ.
+- `forEach` = chạy cùng một đoạn code cho từng phần tử trong danh sách.
 - `filterProjects("all")` cuối file: đặt **trạng thái ban đầu** (chạy được ngay vì `defer` — DOM đã sẵn).
 
 ```
