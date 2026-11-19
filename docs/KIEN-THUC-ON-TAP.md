@@ -1,6 +1,6 @@
 # Ôn tập kiến thức để demo 1-1 với thầy
 
-> Phạm vi: `css/style.css`, `js/navigation.js`, `js/projects.js` + 5 trang HTML (`index`, `about`, `skills`, `projects`, `contact`).
+> Phạm vi: `css/style.css`, `js/navigation.js`, `js/projects.js`, `js/project-search.js`, `js/contact.js` + 5 trang HTML (`index`, `about`, `skills`, `projects`, `contact`).
 > Thứ tự: **Head chung → Kiến thức dùng chung (G1–G12) → Header → Main (từng trang) → Footer → Mobile → JS → Hỏi–đáp → Câu hỏi còn mở**.
 > Quy ước: `[G5]` = "xem mục G5 ở phần Kiến thức dùng chung". Dòng `📍 Dùng ở:` cho biết kiến thức đó xuất hiện ở đâu.
 > Số dòng (`style.css:271`) là số dòng tại thời điểm viết tài liệu; sau khi dọn CSS các số dòng lệch vài dòng, hãy tìm theo tên class.
@@ -14,7 +14,9 @@ cw/
 ├─ index.html  about.html  skills.html  projects.html  contact.html
 ├─ css/style.css            ← 1 file CSS cho cả 5 trang
 ├─ js/navigation.js         ← mọi trang (menu mobile)
-├─ js/projects.js           ← chỉ projects.html (lọc dự án)
+├─ js/projects.js           ← chỉ projects.html (lọc dự án theo loại)
+├─ js/project-search.js     ← chỉ projects.html (tìm kiếm dự án)
+├─ js/contact.js            ← chỉ contact.html (kiểm tra form)
 ├─ assets/icons/*.svg       ← arrow-right, image, timeline-marker, timeline-goal
 └─ images/portrait.jpg
 ```
@@ -37,7 +39,7 @@ Mỗi trang đều có cùng khung: `<head>` → `<header class="site-header">` 
 | `<link rel="stylesheet" href="...Inter:wght@400;500;600;700&amp;display=swap">` | Tải font Inter 4 độ đậm. `&amp;` là cách viết `&` trong thuộc tính HTML. `display=swap` = hiện chữ font dự phòng trước, đổi sang Inter khi tải xong (không bị chữ vô hình) | Chỉ tải 400/500/600/700 → xem `font-synthesis` ở [G9]                                         |
 | `<script src="js/navigation.js" defer>`                                         | `defer` = tải song song, **chạy sau khi HTML parse xong**, theo đúng thứ tự                                                                                                | Vì vậy `querySelector` trong JS tìm thấy phần tử mà không cần `DOMContentLoaded` — xem Phần F |
 
-`projects.html` có thêm `<script src="js/projects.js" defer>`.
+`projects.html` có thêm `<script src="js/projects.js" defer>` và `<script src="js/project-search.js" defer>`; `contact.html` có thêm `<script src="js/contact.js" defer>`.
 
 ---
 
@@ -773,6 +775,86 @@ click "Backend" ──► filterProjects("backend")
                        └─ nút Backend aria-pressed="true", nút còn lại "false"  → CSS đổi màu
 ```
 
+## F3. `project-search.js` (chỉ projects.html)
+
+```js
+const searchInput = document.querySelector("#project-search-input");
+const searchCards = document.querySelectorAll("[data-project-category]");
+const emptyMessage = document.querySelector("#project-empty");
+
+const searchProjects = () => {
+  const query = searchInput.value.trim().toLowerCase();
+
+  searchCards.forEach((card) => {
+    const matches = card.textContent.toLowerCase().includes(query);
+    card.toggleAttribute("data-search-hidden", !matches);
+  });
+
+  const visibleCount = [...searchCards].filter(
+    (card) => !card.hidden && !card.hasAttribute("data-search-hidden"),
+  ).length;
+  emptyMessage.hidden = visibleCount > 0;
+};
+
+if (searchInput) {
+  searchInput.addEventListener("input", searchProjects);
+  document.querySelectorAll("[data-project-filter]").forEach((button) => {
+    button.addEventListener("click", searchProjects);
+  });
+}
+```
+
+- Luồng: gõ chữ (sự kiện `input`) → lấy chuỗi tìm kiếm → thẻ nào có chứa chuỗi đó thì giữ, không thì ẩn → đếm số thẻ còn hiện → nếu 0 thì hiện thông báo "No projects match your search."
+- `.value` = chữ trong ô nhập. `.trim()` bỏ khoảng trắng đầu/cuối. `.toLowerCase()` đổi thành chữ thường để tìm **không phân biệt hoa/thường** (cả chuỗi tìm lẫn chữ trong thẻ đều đổi).
+- `card.textContent` = toàn bộ chữ bên trong thẻ (tiêu đề, mô tả, tag công nghệ). `.includes(query)` = "có chứa chuỗi này không" (true/false). Ô trống `""` thì mọi thẻ đều khớp.
+- **Vì sao dùng `data-search-hidden` mà không dùng `hidden`?** Bộ lọc loại ([F2]) đã dùng `hidden`. Nếu tìm kiếm cũng dùng `hidden`, hai chức năng sẽ ghi đè nhau (ví dụ xoá chữ tìm kiếm sẽ hiện lại cả thẻ mà bộ lọc đang ẩn). Dùng 2 thuộc tính riêng thì thẻ chỉ hiện khi **cả hai** đều không ẩn nó. CSS: `.project-grid .card[data-search-hidden] {display:none}` (`style.css` gần dòng 443).
+- `toggleAttribute("tên", bool)` = thêm thuộc tính (nếu `true`) hoặc bỏ thuộc tính (nếu `false`). Ở đây thẻ **không khớp** (`!matches`) thì được gắn `data-search-hidden`.
+- `[...searchCards]` = chuyển `NodeList` thành mảng thật để dùng `.filter()`. `.filter(...)` giữ lại các thẻ thoả điều kiện; `.length` = đếm. `!` = phủ định. Thẻ "đang hiện" = không bị `hidden` (bộ lọc) **và** không có `data-search-hidden` (tìm kiếm).
+- Click nút lọc cũng gọi `searchProjects` để **cập nhật lại thông báo rỗng** (ví dụ gõ "react" rồi chọn Backend thì có thể không còn thẻ nào).
+- `if (searchInput)`: kiểm tra ô tìm kiếm có tồn tại không, tránh lỗi nếu file được nạp ở trang khác.
+- `role="status"` trên `<p id="project-empty">`: trình đọc màn hình tự đọc thông báo khi nó hiện ra. `aria-controls="project-list"` trên ô nhập: báo ô này điều khiển danh sách dự án.
+
+## F4. `contact.js` (chỉ contact.html)
+
+```js
+const contactForm = document.querySelector("#contact-form");
+
+if (contactForm) {
+  contactForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+
+    const name = document.querySelector("#name").value.trim();
+    // ... email, message tương tự ...
+
+    let isValid = true;
+
+    if (name.length < 2) {
+      nameError.textContent = "Please enter your name.";
+      nameError.hidden = false;
+      isValid = false;
+    } else {
+      nameError.hidden = true;
+    }
+    // ... kiểm tra email, message tương tự ...
+
+    if (isValid) {
+      alert(`Thank you, ${name}!`);
+      contactForm.reset();
+    }
+  });
+}
+```
+
+- Luồng: bấm Send (sự kiện `submit`) → chặn trang tải lại → lấy dữ liệu 3 ô → kiểm tra từng ô → ô sai thì hiện lỗi, ô đúng thì ẩn lỗi → nếu cả 3 đúng thì báo cảm ơn và xoá form.
+- `e.preventDefault()` = **chặn hành vi mặc định** của form (gửi dữ liệu và tải lại trang) để JS tự xử lý. Bài này không có server nên chỉ hiện `alert`.
+- `novalidate` trên `<form>` (HTML) tắt khung báo lỗi mặc định của trình duyệt để dùng thông báo lỗi tự viết.
+- `isValid` là **cờ (flag)**: bắt đầu `true`, ô nào sai thì đổi thành `false`. Cuối cùng chỉ cần nhìn cờ này. Ba `if` chạy độc lập (không `else if`) nên **lỗi của cả 3 ô hiện cùng lúc**.
+- Điều kiện kiểm tra: tên ≥ 2 ký tự; message ≥ 10 ký tự; email dùng **regex** `/^[^\s@]+@[^\s@]+\.[^\s@]+$/` = "một đoạn không có khoảng trắng/@, rồi `@`, rồi đoạn nữa, rồi dấu chấm, rồi đoạn nữa" (`.test(email)` trả true/false). Chỉ kiểm tra hình dạng cơ bản, không đảm bảo email có thật.
+- `.trim()` để người dùng gõ toàn dấu cách vẫn bị tính là rỗng.
+- `<p class="form-error" id="name-error" hidden>`: thông báo lỗi có sẵn trong HTML nhưng bị ẩn; JS gán chữ bằng `textContent` rồi bỏ `hidden`. Ô nhập có `aria-describedby="name-error"` để trình đọc màn hình đọc lỗi cùng với ô đó.
+- Template string: `` `Thank you, ${name}!` `` — dấu huyền (backtick) cho phép chèn biến bằng `${...}`.
+- `contactForm.reset()` đưa các ô về trống.
+
 ---
 
 # PHẦN G — HỎI–ĐÁP NHANH (dự đoán thầy hỏi)
@@ -797,6 +879,10 @@ click "Backend" ──► filterProjects("backend")
 18. **Tại sao `aria-expanded`/`aria-pressed`?** → báo trạng thái cho công nghệ hỗ trợ; đồng thời CSS dùng chúng để tô style [G12].
 19. **`rem` vs `px`?** → bài này dùng `px` toàn bộ; `rem` tỉ lệ theo cỡ chữ gốc, tốt hơn cho người chỉnh cỡ chữ. (Câu hỏi mở bên dưới.)
 20. **Desktop-first hay mobile-first?** → desktop-first: `max-width: 768px`.
+21. **Tại sao `e.preventDefault()` trong form liên hệ?** → chặn form gửi đi và tải lại trang để JS tự kiểm tra và hiện lỗi [F4].
+22. **Lọc loại và tìm kiếm chạy cùng nhau thế nào?** → lọc dùng thuộc tính `hidden`, tìm kiếm dùng `data-search-hidden`; thẻ chỉ hiện khi không bị cái nào ẩn [F3].
+23. **Tìm kiếm có phân biệt hoa/thường không?** → không, vì cả chuỗi tìm và nội dung thẻ đều qua `.toLowerCase()` [F3].
+24. **`novalidate` là gì?** → tắt kiểm tra mặc định của trình duyệt để dùng lỗi tự viết [F4].
 
 ---
 
